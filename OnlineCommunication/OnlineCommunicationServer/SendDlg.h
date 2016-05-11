@@ -24,4 +24,5 @@ protected:
 public:
 	COnlineCommunicationServerDoc*		m_pDoc;
 	afx_msg void OnClickedButtonColor();
+	afx_msg void OnPaint();
 };

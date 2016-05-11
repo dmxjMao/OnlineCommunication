@@ -36,6 +36,7 @@ void CSendDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CSendDlg, CDialogEx)
 //	ON_BN_CLICKED(IDC_BUTTON_COLOR, &CSendDlg::OnBnClickedButtonColor)
 ON_BN_CLICKED(IDC_BUTTON_COLOR, &CSendDlg::OnClickedButtonColor)
+ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 
@@ -51,4 +52,17 @@ void CSendDlg::OnClickedButtonColor()
 	{
 
 	}
+}
+
+
+void CSendDlg::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+					   // TODO: Add your message handler code here
+					   // Do not call CDialogEx::OnPaint() for painting messages
+	CRect rc;
+	GetClientRect(rc);
+	dc.FillSolidRect(rc, RGB(255, 255, 255));
+	dc.FillPath();
+
 }

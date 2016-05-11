@@ -41,6 +41,7 @@ protected:
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
 public:
+	afx_msg void OnConnect();
 };
 
 #ifndef _DEBUG  // debug version in OnlineCommunicationServerView.cpp

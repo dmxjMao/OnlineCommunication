@@ -4,7 +4,8 @@
 
 
 #pragma once
-
+#include "Message.h"
+class CChatSocket;
 
 class COnlineCommunicationServerDoc : public CDocument
 {
@@ -14,6 +15,9 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	CString m_strType;
+	CString m_strMajor;
+	CMessage msg;
 
 // Operations
 public:
@@ -35,7 +39,20 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
+
+	BOOL ConnectSocket(LPCTSTR lpszHandle, LPCTSTR lpszAddress,
+		LPCTSTR m_strImage, LPCTSTR m_strMajor, LPCTSTR m_strType, UINT nPort);
+	BOOL m_bConnected;
+
+	void SendMsg();
+
 protected:
+	CChatSocket* m_pSocket;
+	CSocketFile* m_pFile;
+	CArchive* m_pArchiveIn;
+	CArchive* m_pArchiveOut;
+
+	CString  m_strHandle;
 
 // Generated message map functions
 protected:

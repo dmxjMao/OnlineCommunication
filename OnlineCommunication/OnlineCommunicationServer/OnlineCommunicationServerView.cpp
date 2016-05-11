@@ -12,6 +12,8 @@
 #include "OnlineCommunicationServerDoc.h"
 #include "OnlineCommunicationServerView.h"
 
+#include "LoginDlg.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -25,6 +27,7 @@ BEGIN_MESSAGE_MAP(COnlineCommunicationServerView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
 //	ON_COMMAND(IDC_BUTTON_COLOR, &COnlineCommunicationServerView::OnButtonColor)
+ON_COMMAND(ID_CONNECT, &COnlineCommunicationServerView::OnConnect)
 END_MESSAGE_MAP()
 
 // COnlineCommunicationServerView construction/destruction
@@ -97,3 +100,17 @@ COnlineCommunicationServerDoc* COnlineCommunicationServerView::GetDocument() con
 // COnlineCommunicationServerView message handlers
 
 
+
+
+void COnlineCommunicationServerView::OnConnect()
+{
+	// TODO: Add your command handler code here
+	CLoginDlg dlg;
+	if (IDOK == dlg.DoModal())
+	{
+		CString temp1, temp2;
+		temp1 = dlg.m_strMajor.Left(1);
+		temp2 = dlg.m_strType.Left(1);
+
+	}
+}

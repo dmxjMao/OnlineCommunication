@@ -7,6 +7,9 @@
 #include "SendPane.h"
 #include "UserPane.h"
 
+//#define WM_SYSTRAY	WM_USER + 1001
+
+
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -39,13 +42,17 @@ protected:  // control bar embedded members
 	CSendPane		m_sendPane;
 	CUserPane		m_userPane;
 
+	//NOTIFYICONDATA	pnid;
+
 // Generated message map functions
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnViewCustomize();
 	afx_msg LRESULT OnToolbarCreateNew(WPARAM wp, LPARAM lp);
+	//afx_msg LRESULT OnSysTray(WPARAM wp, LPARAM lp);
 	DECLARE_MESSAGE_MAP()
 
+	//virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 };
 
 

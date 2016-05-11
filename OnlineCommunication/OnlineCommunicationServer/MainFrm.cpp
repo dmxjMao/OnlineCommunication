@@ -19,6 +19,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWndEx)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_CUSTOMIZE, &CMainFrame::OnViewCustomize)
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
+	//ON_MESSAGE(WM_SYSTRAY, OnSysTray)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -38,12 +39,15 @@ CMainFrame::CMainFrame()
 
 CMainFrame::~CMainFrame()
 {
+	//Shell_NotifyIcon(NIM_DELETE, &pnid);
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CFrameWndEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
+	//SetWindowText(_T("ChatClient"));
+	//SetTitle(_T("ChatClient"));
 
 	BOOL bNameValid;
 
@@ -123,6 +127,17 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// enable quick (Alt+drag) toolbar customization
 	CMFCToolBar::EnableQuickCustomization();
 
+	//创建系统托盘
+	//pnid.cbSize = sizeof(NOTIFYICONDATA);
+	//pnid.hIcon = LoadIcon(AfxGetApp()->m_hInstance,
+	//	MAKEINTRESOURCE(IDR_MAINFRAME));
+	//pnid.hWnd = m_hWnd;
+	//pnid.uCallbackMessage = WM_SYSTRAY;
+	//pnid.uFlags = NIF_ICON | NIF_MESSAGE;
+	//pnid.uID = IDR_MAINFRAME;
+	//Shell_NotifyIcon(NIM_ADD, &pnid);
+	//ShowWindow(SW_SHOW);
+
 	return 0;
 }
 
@@ -134,6 +149,9 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	//  the CREATESTRUCT cs
 	cs.style &= ~WS_MAXIMIZEBOX;
 	cs.style &= ~WS_SIZEBOX;
+	cs.style &= ~FWS_ADDTOTITLE;
+
+	cs.lpszName = _T("ChatClient");
 	//cs.cx = 640;
 	//cs.cy = 480;
 
@@ -183,3 +201,29 @@ LRESULT CMainFrame::OnToolbarCreateNew(WPARAM wp,LPARAM lp)
 	return lres;
 }
 
+
+//LRESULT CMainFrame::OnSysTray(WPARAM wp, LPARAM lp)
+//{
+//	//CPoint pt;
+//	switch (lp)
+//	{
+//	case WM_LBUTTONDBLCLK:
+//		ShowWindow(SW_SHOW);
+//		break;
+//		//UpdateWindow();
+//	}
+//
+//	return 0;
+//}
+
+
+//LRESULT CMainFrame::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//	// TODO: Add your specialized code here and/or call the base class
+//
+//	LRESULT result = CFrameWndEx::WindowProc(message, wParam, lParam);
+//	if (SC_MINIMIZE == wParam) {
+//		ShowWindow(SW_HIDE);
+//	}
+//	return result;
+//}

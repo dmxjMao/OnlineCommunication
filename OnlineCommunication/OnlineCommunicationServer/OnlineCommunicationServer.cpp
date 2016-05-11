@@ -141,6 +141,7 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
+	//afx_msg LRESULT OnSystray(WPARAM wParam, LPARAM lParam);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -153,6 +154,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	//ON_REGISTERED_MESSAGE(WM_SYSTRAY, &CAboutDlg::OnSystray)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -185,3 +187,9 @@ void COnlineCommunicationServerApp::SaveCustomState()
 
 
 
+
+
+//afx_msg LRESULT CAboutDlg::OnSystray(WPARAM wParam, LPARAM lParam)
+//{
+//	return 0;
+//}

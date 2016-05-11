@@ -32,7 +32,8 @@
 
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
-
+#include <afxrich.h>		// MFC rich edit classes
+#include <afxsock.h>
 
 
 
@@ -51,3 +52,5 @@
 #endif
 
 
+#define SAFEDELETE(x) if(x) \
+	{ delete x; x = nullptr; }

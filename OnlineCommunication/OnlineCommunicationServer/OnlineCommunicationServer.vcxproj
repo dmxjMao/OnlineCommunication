@@ -181,7 +181,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChatSocket.h" />
+    <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Message.h" />
     <ClInclude Include="OnlineCommunicationServer.h" />
     <ClInclude Include="OnlineCommunicationServerDoc.h" />
     <ClInclude Include="OnlineCommunicationServerView.h" />
@@ -194,7 +197,10 @@
     <ClInclude Include="UserPane.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChatSocket.cpp" />
+    <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="Message.cpp" />
     <ClCompile Include="OnlineCommunicationServer.cpp" />
     <ClCompile Include="OnlineCommunicationServerDoc.cpp" />
     <ClCompile Include="OnlineCommunicationServerView.cpp" />
