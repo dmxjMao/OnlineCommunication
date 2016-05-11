@@ -81,19 +81,38 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // fail to create
 	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
-
-	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
+	
 	m_wndMenuBar.EnableDocking(CBRS_ALIGN_ANY);
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockPane(&m_wndMenuBar);
 	DockPane(&m_wndToolBar);
 
+	//创建用户列表停靠栏
+	if (!m_userPane.Create(_T("用户列表"), this, CRect(0, 0, 200, 200), TRUE, ID_DOCKPANE_USERLIST,
+		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_LEFT | CBRS_FLOAT_MULTI)) {
+		TRACE0("Failed to create userlist pane\n");
+		return -1;
+	}
+	m_userPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_userPane);
+
+	//创建发送停靠栏
+	if (!m_sendPane.Create(nullptr, this, CRect(0, 0, 100, 100), FALSE, 1,
+		WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI)) {
+		TRACE0("Failed to create send pane\n");
+		return -1;
+	}
+	m_sendPane.EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(&m_sendPane);
+
+
+	// TODO: Delete these five lines if you don't want the toolbar and menubar to be dockable
 
 	// enable Visual Studio 2005 style docking window behavior
 	CDockingManager::SetDockingMode(DT_SMART);
 	// enable Visual Studio 2005 style docking window auto-hide behavior
-	EnableAutoHidePanes(CBRS_ALIGN_ANY);
+	//EnableAutoHidePanes(CBRS_ALIGN_ANY);
 
 	// set the visual manager used to draw all user interface elements
 	CMFCVisualManager::SetDefaultManager(RUNTIME_CLASS(CMFCVisualManagerWindows));
@@ -113,6 +132,10 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 		return FALSE;
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
+	cs.style &= ~WS_MAXIMIZEBOX;
+	cs.style &= ~WS_SIZEBOX;
+	//cs.cx = 640;
+	//cs.cy = 480;
 
 	return TRUE;
 }

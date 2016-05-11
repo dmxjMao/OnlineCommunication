@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "SendPane.h"
+#include "UserPane.h"
+
 class CMainFrame : public CFrameWndEx
 {
 	
@@ -33,6 +36,8 @@ protected:  // control bar embedded members
 	CMFCMenuBar       m_wndMenuBar;
 	CMFCToolBar       m_wndToolBar;
 	CMFCStatusBar     m_wndStatusBar;
+	CSendPane		m_sendPane;
+	CUserPane		m_userPane;
 
 // Generated message map functions
 protected:

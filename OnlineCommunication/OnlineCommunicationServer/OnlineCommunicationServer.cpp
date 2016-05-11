@@ -113,6 +113,8 @@ BOOL COnlineCommunicationServerApp::InitInstance()
 		return FALSE;
 
 	// The one and only window has been initialized, so show and update it
+	m_pMainWnd->SetWindowPos(nullptr, -1, -1, 640, 480, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
+
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 	return TRUE;

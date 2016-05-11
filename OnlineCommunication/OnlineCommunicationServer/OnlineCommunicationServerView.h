@@ -40,6 +40,7 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
+public:
 };
 
 #ifndef _DEBUG  // debug version in OnlineCommunicationServerView.cpp

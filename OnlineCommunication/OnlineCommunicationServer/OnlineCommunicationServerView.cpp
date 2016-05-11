@@ -24,6 +24,7 @@ IMPLEMENT_DYNCREATE(COnlineCommunicationServerView, CView)
 BEGIN_MESSAGE_MAP(COnlineCommunicationServerView, CView)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
+//	ON_COMMAND(IDC_BUTTON_COLOR, &COnlineCommunicationServerView::OnButtonColor)
 END_MESSAGE_MAP()
 
 // COnlineCommunicationServerView construction/destruction
@@ -94,3 +95,5 @@ COnlineCommunicationServerDoc* COnlineCommunicationServerView::GetDocument() con
 
 
 // COnlineCommunicationServerView message handlers
+
+
