@@ -43,8 +43,12 @@ public:
 	BOOL ConnectSocket(LPCTSTR lpszHandle, LPCTSTR lpszAddress,
 		LPCTSTR m_strImage, LPCTSTR m_strMajor, LPCTSTR m_strType, UINT nPort);
 	BOOL m_bConnected;
+	void ProcessPendingRead();
 
 	void SendMsg();
+	void ReceiveMsg();
+	void Disconnect();
+	BOOL m_bFilter;
 
 protected:
 	CChatSocket* m_pSocket;
@@ -53,6 +57,9 @@ protected:
 	CArchive* m_pArchiveOut;
 
 	CString  m_strHandle;
+	void talk(int type, CString from, CString to, CString str, COLORREF clr);
+	void DisplayRecMsg(int type, CString from, CString to, BOOL sec, CString str, COLORREF clr);
+	void DisplayMsg(LPCTSTR lpszText);
 
 // Generated message map functions
 protected:
@@ -62,4 +69,6 @@ protected:
 	// Helper function that sets search content for a Search Handler
 	void SetSearchContent(const CString& value);
 #endif // SHARED_HANDLERS
+public:
+	afx_msg void OnUpdateConnections(CCmdUI *pCmdUI);
 };

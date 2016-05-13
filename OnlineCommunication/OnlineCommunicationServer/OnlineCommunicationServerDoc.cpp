@@ -23,6 +23,7 @@
 IMPLEMENT_DYNCREATE(COnlineCommunicationServerDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(COnlineCommunicationServerDoc, CDocument)
+	ON_UPDATE_COMMAND_UI(ID_CONNECTIONS, &COnlineCommunicationServerDoc::OnUpdateConnections)
 END_MESSAGE_MAP()
 
 
@@ -31,6 +32,11 @@ END_MESSAGE_MAP()
 COnlineCommunicationServerDoc::COnlineCommunicationServerDoc()
 {
 	// TODO: add one-time construction code here
+	m_bConnected = FALSE;
+	m_pSocket = nullptr;
+	m_pFile = nullptr;
+	m_pArchiveIn = nullptr;
+	m_pArchiveOut = nullptr;
 
 }
 
@@ -190,21 +196,216 @@ BOOL COnlineCommunicationServerDoc::ConnectSocket(LPCTSTR lpszHandle, LPCTSTR lp
 	msg.major = _ttoi(m_strMajor);
 	msg.type1 = _ttoi(m_strType);
 	CString strWindowText;
-	switch (msg.type1)//论坛类型
-	{
-	case 1:
-		strWindowText = m_strHandle + _T("(") + _T("硬件论坛") + _T(")");
-		break;
-	case 2:
-		strWindowText = m_strHandle + _T("(") + _T("软件开发论坛") + _T("(");
-		break;
-	case 3:
-		strWindowText = m_strHandle + _T("(") + _T("嵌入式系统论坛") + _T("(");
-	}
-	//SendMsg();//发送消息
+	//switch (msg.type1)//论坛类型
+	//{
+	//case 1:
+	//	strWindowText = m_strHandle + _T("(") + _T("硬件论坛") + _T(")");
+	//	break;
+	//case 2:
+	//	strWindowText = m_strHandle + _T("(") + _T("软件开发论坛") + _T("(");
+	//	break;
+	//case 3:
+	//	strWindowText = m_strHandle + _T("(") + _T("嵌入式系统论坛") + _T("(");
+	//}
+	SendMsg();//发送消息
 	m_bConnected = TRUE;//连接标志
 	//GetView()->GetParent()->SetWindowText(strWindowText);//设置窗口标题
 	return TRUE;
+}
+
+
+void COnlineCommunicationServerDoc::ProcessPendingRead()
+{
+	do
+	{
+		ReceiveMsg();//接收信息
+		if (m_pSocket == NULL)
+			return;
+	} while (!m_pArchiveIn->IsBufferEmpty());
+}
+
+
+void COnlineCommunicationServerDoc::Disconnect()
+{
+	//设置CMessage对象
+	msg.type = -2;//用户离开
+	msg.m_bClose = TRUE;
+	msg.from = m_strHandle;
+	msg.to = "所有人";
+	msg.secret = FALSE;
+	msg.m_strText = "Hello";
+	msg.color = RGB(0, 136, 255);
+	msg.major = (WORD)_ttoi(m_strMajor);
+	msg.type1 = (WORD)_ttoi(m_strType);
+	SendMsg();//向服务器发送消息
+	m_bConnected = FALSE;
+	msg.from = "DUMP";//删除所有用户
+	//GetView()->GetParent()->SetWindowText("网上论坛");//设置窗口标题
+	//CComboBox* pTo = (CComboBox*)((CMainFrame*)GetView()->GetParent())->m_wndSend.GetDlgItem(IDC_TO);
+	//pTo->Clear();//清空聊天对象
+	//			 //发送消息，清空用户列表
+	//GetView()->GetParent()->SendMessage(WM_ADDLIST + 1, (LPARAM)&(msg.from), msg.image);
+}
+
+
+void COnlineCommunicationServerDoc::DisplayMsg(LPCTSTR lpszText)
+{
+	//CChatClientView* pView = (CChatClientView*)GetView();
+
+	//if (pView != NULL)
+	//	pView->TextOut(lpszText, RGB(128, 0, 0));
+}
+
+void COnlineCommunicationServerDoc::DisplayRecMsg(int type, CString from, CString to,
+	BOOL sec, CString str, COLORREF clr)
+{
+	//CChatClientView* pView = (CChatClientView*)GetView();//得到关联视图
+	//if (msg.type1 != (WORD)atoi(m_strType))//与本用户不在一个论坛
+	//	return;//返回
+	//if (type == -7)//管理员清理门户
+	//{
+	//	pView->TextOut(_T("系统消息：管理员以一招'佛山无影脚',将"), RGB(0, 0, 0));
+	//	if (from == m_strHandle)//用户自己
+	//	{
+	//		pView->TextOut(_T("你"), RGB(0, 0, 255));
+	//	}
+	//	else
+	//		pView->TextOut(from, RGB(0, 0, 255));
+	//	pView->TextOut(_T("踢出门外\r\n"), RGB(0, 0, 0));
+	//}
+	////	if(type == -5)//
+	////	{
+	////		return;	
+	////	}
+	//if (type == -3)//系统服务器关闭
+	//{
+	//	pView->TextOut(_T("系统消息：服务器已关闭!"), RGB(0, 0, 0));
+	//	return;
+	//}
+	//if (type == -1)//用户进入聊天室
+	//{
+	//	pView->TextOut(from, RGB(0, 0, 255));
+	//	pView->TextOut(_TEXT("风尘仆仆地推门而入\r\n"), RGB(255, 0, 0));
+
+	//}
+	//if (type == -2)//用户离开聊天室
+	//{
+	//	pView->TextOut(from, RGB(0, 0, 255));
+	//	pView->TextOut(_TEXT("静静地离开了论坛，背影显得格外潇洒\r\n"), RGB(255, 0, 0));
+	//}
+	//if (type >= 0)//即时聊天
+	//{
+	//	if (from == m_strHandle || to == m_strHandle || sec == FALSE || to == "所有人")
+	//		talk(type, from, to, str, clr);
+	//}
+}
+
+void COnlineCommunicationServerDoc::talk(int type, CString form, CString to,
+	CString str, COLORREF clr)
+{
+	/*CChatClientView* pView = (CChatClientView*)GetView();
+
+	if (form != m_strHandle && to != m_strHandle && m_bFilter)
+		return;
+	CString temp, to2, first, second;
+	temp.LoadString(IDS_TALK0 + type);
+	int i = temp.Find(",");
+	if (i != -1) {
+		first = temp.Left(i);
+		if (i != temp.GetLength() - 1) {
+			second = temp.Mid(i + 1);
+			second += "：";
+		}
+		else {
+			second = "：";
+		}
+		pView->TextOut((LPCTSTR)form, RGB(0, 0, 255));
+		pView->TextOut((LPCTSTR)first, RGB(0, 0, 0));
+		pView->TextOut((LPCTSTR)to, RGB(0, 0, 255));
+		pView->TextOut((LPCTSTR)second, RGB(0, 0, 0));
+		pView->TextOut((LPCTSTR)str, clr);
+		pView->TextOut((LPCTSTR)"\r\n", clr);
+	}
+	else {
+		first = temp;
+		second = "： ";
+		pView->TextOut(form, RGB(0, 0, 255));
+		pView->TextOut(first, RGB(0, 0, 0));
+		pView->TextOut(second, RGB(0, 0, 0));
+		pView->TextOut(str, clr);
+		pView->TextOut("\r\n", clr);
+	}*/
+}
+
+void COnlineCommunicationServerDoc::ReceiveMsg()
+{
+	TRY
+	{
+		msg.Serialize(*m_pArchiveIn);//读取消息
+	if (msg.type1 != (WORD)_ttoi(m_strType)) //不在同一论坛
+		return;//返回
+			   //显示收到的消息
+	DisplayRecMsg(msg.type, msg.from, msg.to, msg.secret,
+		msg.m_strText, msg.color);
+	//符合断开连接条件
+	if (msg.type == -7 || msg.type == -2 || msg.type == -9)
+		m_bConnected = FALSE;
+	if (msg.type == -9)//用户名已有人使用
+		DisplayMsg(_T("该用户名已经有人使用，请更名重新登录!\n"));
+	}
+		CATCH(CFileException, e)//捕捉异常
+	{
+		msg.m_bClose = TRUE;
+		m_pArchiveOut->Abort();
+		CString strTemp;
+		//if (strTemp.LoadString(IDS_SERVERRESET))
+		//	DisplayMsg(strTemp);
+		//if (strTemp.LoadString(IDS_CONNECTIONCLOSED))
+		//	DisplayMsg(strTemp);
+	}
+	END_CATCH
+		if (msg.m_bClose && (msg.from == m_strHandle))
+		{
+			//初始化各对象
+			SAFEDELETE(m_pArchiveIn);
+			SAFEDELETE(m_pArchiveOut);
+			SAFEDELETE(m_pFile);
+			SAFEDELETE(m_pSocket);
+			m_bConnected = FALSE;
+		}
+	CString strText, strMajor;
+	/*	switch(((WORD)atoi(m_strMajor)))//用户专业
+	{
+	case 1:
+	strText=m_strHandle+", "+"计算机工程";
+	break;
+	case 2:
+	strText=m_strHandle+", "+"软件工程";
+	break;
+	case 3:
+	strText=m_strHandle+", "+"计算机设计";
+	}	*/
+	//添加用户列表
+	if ((msg.type == -1 && msg.from != m_strHandle) || (msg.type == -8))
+	{
+		switch (msg.type1)//用户专业
+		{
+		case 1:
+			strText = msg.from + _T(", ") + _T("计算机工程");
+			break;
+		//case 2:
+		//	strText = msg.from + ", " + "软件工程";
+		//	break;
+		//case 3:
+		//	strText = msg.from + ", " + "计算机设计";
+		}
+		//GetView()->GetParent()->SendMessage(WM_ADDLIST, (LPARAM)&(strText), msg.image);
+	}
+	//从用户列表删除用户
+	if ((msg.type == -7) || (msg.type == -2))//有人离开
+	{
+		//GetView()->GetParent()->SendMessage(WM_ADDLIST + 1, (LPARAM)&(msg.from), msg.image);
+	}
 }
 
 
@@ -231,4 +432,15 @@ void COnlineCommunicationServerDoc::SendMsg()//发送消息
 		}
 		END_CATCH
 	}
+}
+
+void COnlineCommunicationServerDoc::OnUpdateConnections(CCmdUI *pCmdUI)
+{
+	// TODO: Add your command update UI handler code here
+	pCmdUI->Enable(TRUE);
+	CString fmt(_T("online users:%d"));
+	CString str;
+	wsprintf(str.GetBuffer(50), fmt, 5);
+	str.ReleaseBuffer();
+	pCmdUI->SetText(str);
 }

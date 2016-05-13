@@ -1,53 +1,53 @@
 
-// OnlineCommunicationServer.cpp : Defines the class behaviors for the application.
+// Server.cpp : Defines the class behaviors for the application.
 //
 
 #include "stdafx.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include "OnlineCommunicationServer.h"
+#include "Server.h"
 #include "MainFrm.h"
 
-#include "OnlineCommunicationServerDoc.h"
-#include "OnlineCommunicationServerView.h"
+#include "ServerDoc.h"
+#include "ServerView.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// COnlineCommunicationServerApp
+// CServerApp
 
-BEGIN_MESSAGE_MAP(COnlineCommunicationServerApp, CWinAppEx)
-	ON_COMMAND(ID_APP_ABOUT, &COnlineCommunicationServerApp::OnAppAbout)
+BEGIN_MESSAGE_MAP(CServerApp, CWinAppEx)
+	ON_COMMAND(ID_APP_ABOUT, &CServerApp::OnAppAbout)
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 END_MESSAGE_MAP()
 
 
-// COnlineCommunicationServerApp construction
+// CServerApp construction
 
-COnlineCommunicationServerApp::COnlineCommunicationServerApp()
+CServerApp::CServerApp()
 {
 	m_bHiColorIcons = TRUE;
 
 	// TODO: replace application ID string below with unique ID string; recommended
 	// format for string is CompanyName.ProductName.SubProduct.VersionInformation
-	SetAppID(_T("OnlineCommunicationServer.AppID.NoVersion"));
+	SetAppID(_T("Server.AppID.NoVersion"));
 
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
-// The one and only COnlineCommunicationServerApp object
+// The one and only CServerApp object
 
-COnlineCommunicationServerApp theApp;
+CServerApp theApp;
 
 
-// COnlineCommunicationServerApp initialization
+// CServerApp initialization
 
-BOOL COnlineCommunicationServerApp::InitInstance()
+BOOL CServerApp::InitInstance()
 {
 	AfxSocketInit();
 
@@ -95,9 +95,9 @@ BOOL COnlineCommunicationServerApp::InitInstance()
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
-		RUNTIME_CLASS(COnlineCommunicationServerDoc),
+		RUNTIME_CLASS(CServerDoc),
 		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
-		RUNTIME_CLASS(COnlineCommunicationServerView));
+		RUNTIME_CLASS(CServerView));
 	if (!pDocTemplate)
 		return FALSE;
 	AddDocTemplate(pDocTemplate);
@@ -115,14 +115,14 @@ BOOL COnlineCommunicationServerApp::InitInstance()
 		return FALSE;
 
 	// The one and only window has been initialized, so show and update it
-	m_pMainWnd->SetWindowPos(nullptr, -1, -1, 640, 480, SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
-
+	m_pMainWnd->SetWindowPos(nullptr, -1, -1, 640, 480, 
+		SWP_NOMOVE | SWP_NOACTIVATE | SWP_NOZORDER);
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
 	return TRUE;
 }
 
-// COnlineCommunicationServerApp message handlers
+// CServerApp message handlers
 
 
 // CAboutDlg dialog used for App About
@@ -143,7 +143,6 @@ protected:
 // Implementation
 protected:
 	DECLARE_MESSAGE_MAP()
-	//afx_msg LRESULT OnSystray(WPARAM wParam, LPARAM lParam);
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -156,19 +155,18 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-	//ON_REGISTERED_MESSAGE(WM_SYSTRAY, &CAboutDlg::OnSystray)
 END_MESSAGE_MAP()
 
 // App command to run the dialog
-void COnlineCommunicationServerApp::OnAppAbout()
+void CServerApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-// COnlineCommunicationServerApp customization load/save methods
+// CServerApp customization load/save methods
 
-void COnlineCommunicationServerApp::PreLoadState()
+void CServerApp::PreLoadState()
 {
 	BOOL bNameValid;
 	CString strName;
@@ -177,21 +175,15 @@ void COnlineCommunicationServerApp::PreLoadState()
 	GetContextMenuManager()->AddMenu(strName, IDR_POPUP_EDIT);
 }
 
-void COnlineCommunicationServerApp::LoadCustomState()
+void CServerApp::LoadCustomState()
 {
 }
 
-void COnlineCommunicationServerApp::SaveCustomState()
+void CServerApp::SaveCustomState()
 {
 }
 
-// COnlineCommunicationServerApp message handlers
+// CServerApp message handlers
 
 
 
-
-
-//afx_msg LRESULT CAboutDlg::OnSystray(WPARAM wParam, LPARAM lParam)
-//{
-//	return 0;
-//}

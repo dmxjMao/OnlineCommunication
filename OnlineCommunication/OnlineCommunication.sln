@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OnlineCommunicationServer", "OnlineCommunicationServer\OnlineCommunicationServer.vcxproj", "{2C7CC14D-3FAD-4006-95F4-1B923707F944}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "Server\Server.vcxproj", "{CD0F9995-7148-4352-B484-48486C78CEC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{2C7CC14D-3FAD-4006-95F4-1B923707F944}.Release|x64.Build.0 = Release|x64
 		{2C7CC14D-3FAD-4006-95F4-1B923707F944}.Release|x86.ActiveCfg = Release|Win32
 		{2C7CC14D-3FAD-4006-95F4-1B923707F944}.Release|x86.Build.0 = Release|Win32
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Debug|x64.ActiveCfg = Debug|x64
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Debug|x64.Build.0 = Debug|x64
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Debug|x86.ActiveCfg = Debug|Win32
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Debug|x86.Build.0 = Debug|Win32
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Release|x64.ActiveCfg = Release|x64
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Release|x64.Build.0 = Release|x64
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Release|x86.ActiveCfg = Release|Win32
+		{CD0F9995-7148-4352-B484-48486C78CEC2}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

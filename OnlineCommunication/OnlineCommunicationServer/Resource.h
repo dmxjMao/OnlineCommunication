@@ -12,8 +12,10 @@
 #define IDS_TOOLBAR_CUSTOMIZE           125
 #define ID_VIEW_CUSTOMIZE               126
 #define ID_DOCKPANE_USERLIST            126
+#define ID_CONNECTIONS                  127
 #define IDR_MAINFRAME                   128
 #define IDR_MAINFRAME_256               129
+#define ID_MESSAGES                     129
 #define IDR_OnlineCommunicaTYPE         130
 #define IDS_EDIT_MENU                   306
 #define IDD_SEND                        310
@@ -30,7 +32,6 @@
 #define IDC_NAME                        1008
 #define IDC_IMAGE                       1009
 #define IDC_MAJOR                       1010
-#define IDC_COMBO4                      1011
 #define IDC_FORUM                       1011
 #define ID_32771                        32771
 #define ID_CONNECT                      32772

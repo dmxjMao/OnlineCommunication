@@ -14,6 +14,8 @@
 
 #include "LoginDlg.h"
 
+#define	PORT 2310
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -111,6 +113,7 @@ void COnlineCommunicationServerView::OnConnect()
 		CString temp1, temp2;
 		temp1 = dlg.m_strMajor.Left(1);
 		temp2 = dlg.m_strType.Left(1);
-
+		GetDocument()->ConnectSocket(_T("Àî´ó×ì"), _T("127.0.0.1"), _T("1"),
+			_T("1"), _T("1"), PORT);
 	}
 }

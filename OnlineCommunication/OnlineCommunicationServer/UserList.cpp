@@ -41,6 +41,13 @@ int CUserList::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_imgList.Create(IDB_USERLIST, 16, 1, ILC_COLOR4);
 	SetImageList(&m_imgList, LVSIL_NORMAL);
 
+	CString title[] = { _T("Ãû³Æ"),_T("×¨Òµ") };
+	int len = sizeof(title) / sizeof(title[0]);
+	for (int i = 0; i < len; ++i)
+	{
+		InsertColumn(i, title[i], LVCFMT_LEFT, 70);
+	}
+
 	return 0;
 }
 

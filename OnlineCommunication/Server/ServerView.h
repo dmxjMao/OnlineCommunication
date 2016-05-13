@@ -1,19 +1,19 @@
 
-// OnlineCommunicationServerView.h : interface of the COnlineCommunicationServerView class
+// ServerView.h : interface of the CServerView class
 //
 
 #pragma once
 
 
-class COnlineCommunicationServerView : public CView
+class CServerView : public CView
 {
 protected: // create from serialization only
-	COnlineCommunicationServerView();
-	DECLARE_DYNCREATE(COnlineCommunicationServerView)
+	CServerView();
+	DECLARE_DYNCREATE(CServerView)
 
 // Attributes
 public:
-	COnlineCommunicationServerDoc* GetDocument() const;
+	CServerDoc* GetDocument() const;
 
 // Operations
 public:
@@ -26,7 +26,7 @@ protected:
 
 // Implementation
 public:
-	virtual ~COnlineCommunicationServerView();
+	virtual ~CServerView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
@@ -40,12 +40,10 @@ protected:
 	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
 	DECLARE_MESSAGE_MAP()
-public:
-	afx_msg void OnConnect();
 };
 
-#ifndef _DEBUG  // debug version in OnlineCommunicationServerView.cpp
-inline COnlineCommunicationServerDoc* COnlineCommunicationServerView::GetDocument() const
-   { return reinterpret_cast<COnlineCommunicationServerDoc*>(m_pDocument); }
+#ifndef _DEBUG  // debug version in ServerView.cpp
+inline CServerDoc* CServerView::GetDocument() const
+   { return reinterpret_cast<CServerDoc*>(m_pDocument); }
 #endif
 
